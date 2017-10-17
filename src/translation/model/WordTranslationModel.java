@@ -19,72 +19,73 @@ public class WordTranslationModel {
 	
 	public static void main(String[] args) throws Exception {
 		
-		JFrame JF = new JFrame();
-		Container framePane = JF.getContentPane();
-		GridBagLayout GBlayout = new GridBagLayout(); 	
 		
-		JF.setTitle("Word Translation");
-		JF.setSize(600, 200);
-		JF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		framePane.setLayout(GBlayout);
-		GridBagConstraints GridBagc = new GridBagConstraints();
-       
-        JLabel labelword = new JLabel("Query Word : ");
-        GridBagc.gridx = 0;
-        GridBagc.gridy = 0;
-        GridBagc.gridwidth = 1;
-        GridBagc.gridheight = 1;
-        GridBagc.weightx = 0;
-        GridBagc.weighty = 0;
-        GridBagc.fill = GridBagConstraints.NONE;
-        GridBagc.anchor = GridBagConstraints.NORTHEAST;
-        GridBagc.insets = new Insets(20, 0, 0, 0);
-        framePane.add(labelword, GridBagc);
-        
-        JTextField textfieldword = new JTextField();
-        GridBagc.gridx = 1;
-        GridBagc.gridy = 0;
-        GridBagc.gridwidth = 6;
-        GridBagc.gridheight = 1;
-        GridBagc.weightx = 0;
-        GridBagc.weighty = 0;
-        GridBagc.fill = GridBagConstraints.HORIZONTAL;
-        GridBagc.anchor = GridBagConstraints.NORTHEAST;
-        GridBagc.insets = new Insets(20, 0, 0, 0);
-        framePane.add(textfieldword, GridBagc);
-        
-        
-        JLabel labelresult = new JLabel("Query Result : ");
-        GridBagc.gridx = 0;
-        GridBagc.gridy = 1;
-        GridBagc.gridwidth = 1;
-        GridBagc.gridheight = 1;
-        GridBagc.weightx = 0;
-        GridBagc.weighty = 0;
-        GridBagc.fill = GridBagConstraints.NONE;
-        GridBagc.anchor = GridBagConstraints.NORTHEAST;
-        GridBagc.insets = new Insets(10, 0, 0, 0);
-        framePane.add(labelresult, GridBagc);
-        
-        JTextArea TextArearesult = new JTextArea();
-        GridBagc.gridx = 1;
-        GridBagc.gridy = 1;
-        GridBagc.gridwidth = 1;
-        GridBagc.gridheight = 1;
-        GridBagc.weightx = 1;
-        GridBagc.weighty = 1;
-        GridBagc.fill = GridBagConstraints.HORIZONTAL;
-        GridBagc.anchor = GridBagConstraints.NORTHEAST;
-        GridBagc.insets = new Insets(10, 0, 0, 0);
-        framePane.add(TextArearesult, GridBagc);
-        //JF.pack();
-        JF.setVisible(true);
-        
+	    JFrame jf = new JFrame("JPanelDemo");
+	    jf.setTitle("Word Translation");
+	    jf.setSize(600, 150);
+	    jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    Container contentPane = jf.getContentPane();
+	    
+	    GridLayout gridlayout = new GridLayout(2, 1, 1, 10);
+	    //FlowLayout flowlayout = new FlowLayout();
+	    jf.setLayout(gridlayout);
+	    //JPanel panelup = new JPanel(new GridLayout(1, 2));
+	    JPanel panelup = new JPanel(new FlowLayout());
+	    JPanel paneldown = new JPanel(new GridLayout(2, 1, 1, 1));
+	    panelup.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+	    paneldown.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+	    //JPanel paneldown = new JPanel(new FlowLayout());
+	    
+	    JPanel panel_small_1 =new JPanel();
+	    JPanel panel_small_2 =new JPanel();
+	    JPanel panel_small_3 =new JPanel();
+	    panel_small_1.setLayout(new FlowLayout());
+	    panel_small_2.setLayout(new FlowLayout());
+	    panel_small_3.setLayout(new FlowLayout());
+
+	    JLabel wordlabel = new JLabel("Query Word : ");
+	    JTextField wordinput = new JTextField();
+	    wordinput.setColumns(10);
+	    panel_small_1.add(wordlabel);
+	    panel_small_1.add(wordinput);
+	    panelup.add(panel_small_1);
+	    //panelup.add(wordlabel);
+	    //panelup.add(panel_small_1);
+	    //panelup.add(wordinput);
+	    
+	    JLabel cdictlabel = new JLabel("Query Result : ");
+	    JTextArea cdictresult = new JTextArea();
+	    cdictresult.setColumns(40);
+	    JLabel yahoolabel = new JLabel("Query Yahoo Result : ");
+	    JTextArea yahooresult = new JTextArea();
+	    yahooresult.setColumns(40);
+	    
+	    panel_small_2.add(cdictlabel);
+	    panel_small_2.add(cdictresult);
+//	    paneldown.add(panel_small_2);
+	    panel_small_3.add(yahoolabel);
+	    panel_small_3.add(yahooresult);
+//	    paneldown.add(panel_small_3);
+	    
+	    //paneldown.add(cdictlabel);
+	    //panel_small_2.add(cdictresult);
+	    paneldown.add(panel_small_2);
+	    //paneldown.add(cdictresult);
+	    //paneldown.add(yahoolabel);
+	    //paneldown.add(yahooresult);
+	    //panel_small_3.add(yahooresult);	
+	    paneldown.add(panel_small_3);
+	    
+	    contentPane.add(panelup);
+	    contentPane.add(paneldown);
+
+	    jf.setVisible(true);
+
 		CutBook cb = new CutBook();
-		GetDictionary testhttp = new GetDictionary();
+		GetDictionary http = new GetDictionary();
 		String queryword = cb.getBookContents();
 		queryword = queryword.trim();
-		testhttp.sendGet(queryword);
+		http.sendGet_cdict(queryword);
 		
 		//System.out.println(Charset.defaultCharset());
 		
@@ -103,12 +104,12 @@ public class WordTranslationModel {
 				
 				if(!prev_word.equals(queryWord)) {
 					//System.out.println(new Date());
-					textfieldword.setText(cb.getBookContents());
+					//textfieldword.setText(cb.getBookContents());
 
 					queryWord = queryWord.trim();
 					try {
-						String result = testhttp.sendGet(queryWord);
-						TextArearesult.setText(result);
+						String result = http.sendGet_cdict(queryWord);
+						//TextArearesult.setText(result);
 						
 						prev_word = queryWord;
 					} catch (Exception e) {

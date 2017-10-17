@@ -10,7 +10,36 @@ import java.nio.charset.StandardCharsets;
 public class GetDictionary {
 
 	// HTTP GET request
-	public String sendGet(String word) throws Exception {
+	public String sendGet_Yahoo(String word) throws Exception {
+		
+		String url = "https://cdict.net/q/" + word;
+
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		con.setRequestMethod("GET");
+
+		con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+		//int responseCode = con.getResponseCode();
+		//System.out.println("\nSending 'GET' request to URL : " + url);
+		//System.out.println("Response Code : " + responseCode);
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
+		
+		String content = response.toString();
+		//System.out.println(content.substring(content.indexOf("content") + 9, content.indexOf("keywords") - 14));
+		return null;
+	}
+	
+	public String sendGet_cdict(String word) throws Exception {
 		//word = "paper";
 		String url = "https://cdict.net/q/" + word;
 
@@ -80,10 +109,11 @@ public class GetDictionary {
 
 	public static void main(String[] args) throws Exception {
 
-		GetDictionary testhttp = new GetDictionary();
+		GetDictionary http = new GetDictionary();
 		// testhttp.sendPost();
-		String queryword = "Ascension   ";
+		String queryword = "Ascension";
 		queryword = queryword.trim();
-		testhttp.sendGet(queryword);
+		http.sendGet_cdict(queryword);
+		http.sendGet_Yahoo(queryword);
 	}
 }
